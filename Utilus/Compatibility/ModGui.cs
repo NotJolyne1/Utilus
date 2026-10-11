@@ -1,10 +1,10 @@
-using System.Reflection;
+﻿using System.Reflection;
 using HarmonyLib;
-using JolyMod.Config;
+using Utilus.Config;
 using MelonLoader;
 using UnityEngine;
 
-namespace JolyMod.Compatibility
+namespace Utilus.Compatibility
 {
     using GUI = UnityEngine.GUI;
     using Object = UnityEngine.Object;
@@ -24,7 +24,7 @@ namespace JolyMod.Compatibility
                     if (method != null && !method.IsAbstract) harmony.Patch(method, prefix: enter, finalizer: leave);
         }
 
-        static IEnumerable<Type> Types(Assembly assembly)
+        private static IEnumerable<Type> Types(Assembly assembly)
         {
             try { return assembly.GetTypes(); }
             catch (ReflectionTypeLoadException error) { return error.Types.Where(type => type != null)!; }
@@ -34,11 +34,10 @@ namespace JolyMod.Compatibility
 
         public static void OnGUI()
         {
-            var key = Event.current;
-            if (key?.type == EventType.KeyDown && GUIUtility.keyboardControl == 0 && key.keyCode is KeyCode.F1 or KeyCode.Backslash) Hidden = !Hidden;
+            if (Event.current?.type == EventType.KeyDown && GUIUtility.keyboardControl == 0 && Event.current.keyCode is KeyCode.F1 or KeyCode.Backslash) Hidden = !Hidden;
         }
 
-        static bool Enter(MethodBase __originalMethod, out Snapshot __state)
+        private static bool Enter(MethodBase __originalMethod, out Snapshot __state)
         {
             __state = new Snapshot(Current);
             Current = __originalMethod.DeclaringType!.Assembly;
@@ -52,7 +51,7 @@ namespace JolyMod.Compatibility
             return !Hidden;
         }
 
-        static void Leave(Snapshot __state)
+        private static void Leave(Snapshot __state)
         {
             __state.Restore();
             Current = __state.Owner;

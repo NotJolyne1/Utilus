@@ -1,9 +1,9 @@
 ﻿using System.Reflection.Emit;
 using HarmonyLib;
-using JolyMod.Config;
+using Utilus.Config;
 using MelonLoader;
 
-namespace JolyMod.Compatibility
+namespace Utilus.Compatibility
 {
     internal static class AntiLogSpam
     {
@@ -18,7 +18,7 @@ namespace JolyMod.Compatibility
             Filter(library, "LogError", section: 2, texts: new[] { 0 });
         }
 
-        static void Filter(object library, string name, int section, int[] texts)
+        private static void Filter(object library, string name, int section, int[] texts)
         {
             var property = AccessTools.Property(library.GetType(), name);
             var original = (Delegate)property.GetValue(library)!;
@@ -52,7 +52,7 @@ namespace JolyMod.Compatibility
             property.SetValue(library, filter.CreateDelegate(original.GetType(), original));
         }
 
-        static string? Pass(string section, string text)
+        private static string? Pass(string section, string text)
         {
             lock (seen)
             {

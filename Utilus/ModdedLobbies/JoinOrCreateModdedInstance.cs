@@ -1,9 +1,9 @@
 ﻿using HarmonyLib;
 using Il2CppFusion;
 using Il2CppSG.Airlock;
-using JolyMod.Config;
+using Utilus.Config;
 
-namespace JolyMod.ModdedLobbies
+namespace Utilus.ModdedLobbies
 {
     [HarmonyPatch]
     internal class JoinOrCreateModdedRoom
@@ -12,7 +12,7 @@ namespace JolyMod.ModdedLobbies
         static bool hostingModded;
 
         [HarmonyPrefix, HarmonyPatch(typeof(NetworkRunner), nameof(NetworkRunner.StartGame))]
-        static void StartGame(StartGameArgs args)
+        private static void StartGame(StartGameArgs args)
         {
             hostingModded = args.GameMode == GameMode.Host && Settings.MakeRoomsModded;
             if (!hostingModded || args.SessionProperties == null || !args.SessionProperties.ContainsKey("gamemode")) return;
@@ -20,7 +20,7 @@ namespace JolyMod.ModdedLobbies
         }
 
         [HarmonyPrefix, HarmonyPatch(typeof(SessionInfo), nameof(SessionInfo.UpdateCustomProperties))]
-        static void SendMode(Il2CppSystem.Collections.Generic.Dictionary<string, SessionProperty> customProperties)
+        private static void SendMode(Il2CppSystem.Collections.Generic.Dictionary<string, SessionProperty> customProperties)
         {
             if (!hostingModded || customProperties == null || !customProperties.ContainsKey("gamemode")) return;
             var mode = customProperties["gamemode"];
@@ -28,7 +28,7 @@ namespace JolyMod.ModdedLobbies
         }
 
         [HarmonyPrefix, HarmonyPatch(typeof(GameSession), nameof(GameSession.SyncWithSessionInfo))]
-        static void ReadMode(GameSession __instance)
+        private static void ReadMode(GameSession __instance)
         {
             var properties = __instance.Runner?.SessionInfo?.Properties;
             if (properties == null || !properties.ContainsKey("gamemode")) return;

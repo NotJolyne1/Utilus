@@ -1,16 +1,14 @@
 ﻿using MelonLoader;
-using Microsoft.VisualBasic;
-using static MelonLoader.MelonLaunchOptions;
 
-[assembly: MelonInfo(typeof(JolyMod.Main), "JolyMod", "1.0.0", "Jolyne/Shadow.cs", "")]
+[assembly: MelonInfo(typeof(Utilus.Main), "Utilus", "1.0.0", "Jolyne/Shadow.cs", "")]
 [assembly: MelonGame("Schell Games", null)]
-namespace JolyMod
+namespace Utilus
 {
     public class Main : MelonMod
     {
         public override void OnApplicationStart()
         {
-            MelonLogger.Msg("JolyMod has been loaded!");
+            MelonLogger.Msg("Utilus has been loaded!");
             Compatibility.AntiLogSpam.Start();
         }
 
@@ -23,11 +21,6 @@ namespace JolyMod
         {
             ModdedLobbies.ModdedMenu.Setup();
         }
-
-        public override void OnUpdate()
-        {
-        }
-
 
         public override void OnGUI()
         {

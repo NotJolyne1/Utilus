@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="PrivateServer\**" />
+    <EmbeddedResource Remove="PrivateServer\**" />
+    <None Remove="PrivateServer\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Among Us 3D\MelonLoader\net6\0Harmony.dll</HintPath>
     </Reference>
@@ -78,12 +84,8 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="PrivateServer\" />
-  </ItemGroup>
-
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="@echo off&#xD;&#xA;del /F /Q &quot;C:\Program Files (x86)\Steam\steamapps\common\Among Us 3D\Mods\JolyMod.dll&quot; 2&gt;nul&#xD;&#xA;copy /Y &quot;$(TargetDir)$(TargetFileName)&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Among Us 3D\Mods\JolyMod.dll&quot;&#xD;&#xA;" />
+    <Exec Command="@echo off&#xD;&#xA;del /F /Q &quot;C:\Program Files (x86)\Steam\steamapps\common\Among Us 3D\Mods\Utilus.dll&quot; 2&gt;nul&#xD;&#xA;copy /Y &quot;$(TargetDir)$(TargetFileName)&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\Among Us 3D\Mods\Utilus.dll&quot;&#xD;&#xA;" />
   </Target>
 
 </Project>

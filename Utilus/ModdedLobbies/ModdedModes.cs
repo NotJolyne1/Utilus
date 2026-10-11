@@ -1,12 +1,12 @@
-using HarmonyLib;
+﻿using HarmonyLib;
 using Il2CppSG.Airlock;
 using Il2CppSG.Airlock.UI.TitleScreen;
-using JolyMod.Config;
-using JolyMod.GUI;
+using Utilus.Config;
+using Utilus.GUI;
 using MelonLoader;
 using UnityEngine;
 
-namespace JolyMod.ModdedLobbies
+namespace Utilus.ModdedLobbies
 {
     [HarmonyPatch(typeof(GamemodeSelectionMenu))]
     internal static class ModdedModes
@@ -14,7 +14,7 @@ namespace JolyMod.ModdedLobbies
         static GameToggle? toggle;
 
         [HarmonyPostfix, HarmonyPatch(nameof(GamemodeSelectionMenu.Update))]
-        static void Update(GamemodeSelectionMenu __instance)
+        private static void Update(GamemodeSelectionMenu __instance)
         {
             if (!Settings.ModdedLobbies) return;
             if (toggle == null || toggle.Button.Root == null) AddToggle(__instance);
@@ -27,27 +27,27 @@ namespace JolyMod.ModdedLobbies
         }
 
         [HarmonyPrefix, HarmonyPatch(nameof(GamemodeSelectionMenu.StartGame))]
-        static bool StartGame(GamemodeSelectionMenu __instance)
+        private static bool StartGame(GamemodeSelectionMenu __instance)
         {
             if (!Settings.ModdedLobbies || !Settings.MakeRoomsModded || !__instance._isQuickMatch) return true;
             MelonCoroutines.Start(ModdedMenu.JoinRandom(__instance._activeMode?.ModeInfo?.ModeName ?? "Classic"));
             return false;
         }
 
-        static void AddToggle(GamemodeSelectionMenu menu)
+        private static void AddToggle(GamemodeSelectionMenu menu)
         {
             var settings = menu.transform.Find("MainLayout/TopLayout/AdvandedSettingsButton");
             if (settings != null) toggle = new GameToggle(settings, "Modded", () => Settings.MakeRoomsModded, on => Settings.MakeRoomsModded = on);
         }
 
-        static void PlaceUnder(Transform button, List<MapModeSelect> modes)
+        private static void PlaceUnder(Transform button, List<MapModeSelect> modes)
         {
             var first = Center(modes[0].transform);
             var last = Center(modes[modes.Count - 1].transform);
             button.position += last + (last - first) / (modes.Count - 1) - Center(button);
         }
 
-        static void Mark(Component label)
+        private static void Mark(Component label)
         {
             string text = GameText.Get(label);
             string plain = text.StartsWith("Modded ") ? text.Substring(7) : text;
@@ -57,6 +57,6 @@ namespace JolyMod.ModdedLobbies
             GameText.Paint(label, Settings.MakeRoomsModded ? GameText.Gold : Color.white);
         }
 
-        static Vector3 Center(Transform button) => button.GetComponentsInChildren<MeshRenderer>().OrderByDescending(part => part.bounds.size.x).First().bounds.center;
+        private static Vector3 Center(Transform button) => button.GetComponentsInChildren<MeshRenderer>().OrderByDescending(part => part.bounds.size.x).First().bounds.center;
     }
 }

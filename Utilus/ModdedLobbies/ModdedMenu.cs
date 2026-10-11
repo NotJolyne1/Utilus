@@ -1,15 +1,15 @@
-using System.Collections;
+﻿using System.Collections;
 using HarmonyLib;
 using Il2CppFusion;
 using Il2CppSG.Airlock;
 using Il2CppSG.Airlock.Network;
 using Il2CppSG.Airlock.UI.TitleScreen;
-using JolyMod.Config;
-using JolyMod.GUI;
+using Utilus.Config;
+using Utilus.GUI;
 using MelonLoader;
 using UnityEngine;
 
-namespace JolyMod.ModdedLobbies
+namespace Utilus.ModdedLobbies
 {
     using Object = UnityEngine.Object;
 
@@ -38,7 +38,7 @@ namespace JolyMod.ModdedLobbies
             ShowBadge(card.Root.transform);
         }
 
-        static void ShowBadge(Transform card)
+        private static void ShowBadge(Transform card)
         {
             var picture = card.Find("LUI_Button_Frame/Icon")?.GetComponent<SpriteRenderer>();
             var tile = card.Find("LUI_Button_Frame/Icon (2)");
@@ -50,20 +50,20 @@ namespace JolyMod.ModdedLobbies
             tile.gameObject.SetActive(false);
         }
 
-        static void Open()
+        private static void Open()
         {
             page?.Open();
             MelonCoroutines.Start(ShowRooms());
         }
 
-        static IEnumerator ShowRooms()
+        private static IEnumerator ShowRooms()
         {
             Fill("Searching...");
             yield return Refresh();
             Fill(rooms.Count == 0 ? "No modded lobbies right now" : "");
         }
 
-        static void Fill(string message)
+        private static void Fill(string message)
         {
             if (page == null) return;
             page.ClearRows();
@@ -71,7 +71,7 @@ namespace JolyMod.ModdedLobbies
             else foreach (var found in rooms.Take(5)) page.AddRow(found.text, () => Join(found.room));
         }
 
-        static IEnumerator Refresh()
+        private static IEnumerator Refresh()
         {
             if (loading) yield break;
             loading = true;
@@ -96,10 +96,9 @@ namespace JolyMod.ModdedLobbies
                 foreach (var room in lobby.Sessions)
                 {
                     if (room?.Properties == null || !room.Properties.TryGetValue("gamemode", out var tagged) || tagged == null || JoinOrCreateModdedRoom.Mode(tagged) is not int number) continue;
-                    var info = room.Properties;
                     string mode = ((GameModes)number).ToString().Replace("Gameplay", "Classic");
-                    string state = (int)info["game_in_progress"] == 1 ? "In Game" : "Lobby";
-                    rooms.Add((room, mode, $"{room.Name}   {room.PlayerCount}/{room.MaxPlayers}   {(string)info["mapname"]}   {mode.Replace("Infection", "Tag")}   {state}"));
+                    string state = (int)room.Properties["game_in_progress"] == 1 ? "In Game" : "Lobby";
+                    rooms.Add((room, mode, $"{room.Name}   {room.PlayerCount}/{room.MaxPlayers}   {(string)room.Properties["mapname"]}   {mode.Replace("Infection", "Tag")}   {state}"));
                 }
                 rooms.Sort((a, b) => b.room.PlayerCount.CompareTo(a.room.PlayerCount));
             }
@@ -109,7 +108,7 @@ namespace JolyMod.ModdedLobbies
             }
         }
 
-        static void JoinAny()
+        private static void JoinAny()
         {
             var open = rooms.Where(found => found.room.PlayerCount < found.room.MaxPlayers).ToList();
             if (open.Count == 0) GamePage.Popup("No modded lobbies to join right now");
@@ -124,7 +123,7 @@ namespace JolyMod.ModdedLobbies
             else Join(picks[UnityEngine.Random.Range(0, picks.Count)].room);
         }
 
-        static void Join(SessionInfo room)
+        private static void Join(SessionInfo room)
         {
             var menu = GamePage.Menus?.Find("DirectJoinMenu")?.GetComponent<DirectJoinMenu>();
             if (menu == null) return;
@@ -135,7 +134,7 @@ namespace JolyMod.ModdedLobbies
         [HarmonyPatch(typeof(AirlockPeer), nameof(AirlockPeer.DirectJoinFindGame))]
         class UseJoinCode
         {
-            static void Prefix(ref string pGameName)
+            private static void Prefix(ref string pGameName)
             {
                 if (joinCode == "") return;
                 pGameName = joinCode;
@@ -146,7 +145,7 @@ namespace JolyMod.ModdedLobbies
         [HarmonyPatch(typeof(NetworkRunner), nameof(NetworkRunner.GetRunnerForScene), typeof(int))]
         class SkipLobbyRunner
         {
-            static bool Prefix(ref NetworkRunner __result)
+            private static bool Prefix(ref NetworkRunner __result)
             {
                 if (lobbyRunner == null) return true;
                 var runners = NetworkRunner.GetInstancesEnumerator();
@@ -160,7 +159,7 @@ namespace JolyMod.ModdedLobbies
             }
         }
 
-        static Sprite Badge(Sprite like)
+        private static Sprite Badge(Sprite like)
         {
             int size = (int)like.rect.width;
             var icon = Convert.FromBase64String(RepairIcon);

@@ -1,9 +1,9 @@
-using Il2CppInterop.Runtime;
+﻿using Il2CppInterop.Runtime;
 using Il2CppSG.Airlock.UI.TitleScreen;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace JolyMod.GUI
+namespace Utilus.GUI
 {
     using Object = UnityEngine.Object;
 
@@ -22,7 +22,7 @@ namespace JolyMod.GUI
         public readonly GameObject Root;
         readonly Component? label;
 
-        GameButton(GameObject root, string text, Action click)
+        private GameButton(GameObject root, string text, Action click)
         {
             Root = root;
             foreach (var part in root.GetComponentsInChildren<Component>(true))
@@ -62,7 +62,7 @@ namespace JolyMod.GUI
             return this;
         }
 
-        static void Listen(Component button, Action click)
+        private static void Listen(Component button, Action click)
         {
             var fields = Il2CppSystem.Reflection.BindingFlags.Instance | Il2CppSystem.Reflection.BindingFlags.Public | Il2CppSystem.Reflection.BindingFlags.NonPublic;
             var released = button.GetIl2CppType().GetField("OnReleased", fields).GetValue(button).Cast<UnityEvent>();
@@ -115,7 +115,7 @@ namespace JolyMod.GUI
             return new GamePage(copy.transform, play.GetComponent<Menu>(), title);
         }
 
-        GamePage(Transform root, Menu previous, string title)
+        private GamePage(Transform root, Menu previous, string title)
         {
             menu = root.GetComponent<Menu>();
             menu._key = ScriptableObject.CreateInstance(Il2CppType.Of<MenuKey>()).Cast<MenuKey>();

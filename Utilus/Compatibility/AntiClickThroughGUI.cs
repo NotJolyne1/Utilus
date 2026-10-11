@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using Il2CppSG.Airlock;
 
-namespace JolyMod.Compatibility
+namespace Utilus.Compatibility
 {
     [HarmonyPatch(typeof(UITransformInputModule), "Process")]
     internal static class AntiClickThroughGUI

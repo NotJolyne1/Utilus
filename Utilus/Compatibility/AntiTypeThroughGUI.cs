@@ -1,8 +1,8 @@
-using JolyMod.Config;
+using Utilus.Config;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace JolyMod.Compatibility
+namespace Utilus.Compatibility
 {
     internal static class AntiTypeThroughGUI
     {
