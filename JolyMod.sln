@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37411.7 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JolyMod", "JolyMod\JolyMod.csproj", "{55ABF4E3-F9A9-4639-9222-7BE4C3148E3E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{55ABF4E3-F9A9-4639-9222-7BE4C3148E3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55ABF4E3-F9A9-4639-9222-7BE4C3148E3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55ABF4E3-F9A9-4639-9222-7BE4C3148E3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55ABF4E3-F9A9-4639-9222-7BE4C3148E3E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {94BAC1D2-0F27-4198-95B7-B4424450159F}
+	EndGlobalSection
+EndGlobal
