@@ -1,6 +1,6 @@
 ﻿using MelonLoader;
 
-[assembly: MelonInfo(typeof(Utilus.Main), "Utilus", "1.0.0", "Jolyne/Shadow.cs", "")]
+[assembly: MelonInfo(typeof(Utilus.Main), "Utilus", "0.9.0", "Jolyne/Shadow.cs", "")]
 [assembly: MelonGame("Schell Games", null)]
 namespace Utilus
 {
@@ -10,6 +10,7 @@ namespace Utilus
         {
             MelonLogger.Msg("Utilus has been loaded!");
             Compatibility.AntiLogSpam.Start();
+            AutoUpdate.Check(Info.Version);
         }
 
         public override void OnLateInitializeMelon()

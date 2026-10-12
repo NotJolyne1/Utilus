@@ -1,4 +1,5 @@
-﻿using Il2CppInterop.Runtime;
+﻿// Library I made to make custom in game interfaces easier
+using Il2CppInterop.Runtime;
 using Il2CppSG.Airlock.UI.TitleScreen;
 using UnityEngine;
 using UnityEngine.Events;

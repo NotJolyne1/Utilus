@@ -29,7 +29,7 @@ namespace Utilus.Compatibility
             }
         }
 
-        static bool calling;
+        private static bool calling;
 
         private static bool Prefix(MethodBase __originalMethod, object[] __args, ref Rect __result)
         {
@@ -52,7 +52,7 @@ namespace Utilus.Compatibility
             return false;
         }
 
-        static readonly Dictionary<(Assembly, int), Rect> placed = new();
+        private static readonly Dictionary<(Assembly, int), Rect> placed = new();
 
         private static bool OffScreen(Rect area)
         {
