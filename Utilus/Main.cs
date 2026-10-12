@@ -1,6 +1,6 @@
 ﻿using MelonLoader;
 
-[assembly: MelonInfo(typeof(Utilus.Main), "Utilus", "0.9.0", "Jolyne/Shadow.cs", "")]
+[assembly: MelonInfo(typeof(Utilus.Main), "Utilus", "1.0.1", "Jolyne/Shadow.cs", "")]
 [assembly: MelonGame("Schell Games", null)]
 namespace Utilus
 {
